@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 13
+services:
+  - docker
+script:
+  - docker --version
+  - docker build -t travis_ci .
+  - docker tag travis_ci sleizi/travis_ci
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push sleizi/travis_ci
