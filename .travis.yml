@@ -1,12 +1,23 @@
 language: node_js
 node_js:
   - 13
+
 services:
   - docker
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
 script:
-  - docker --version
-  - docker build -t travis_ci .
-  - docker tag travis_ci sleizi/travis_ci
+  - docker --version # print the version for logging
+  - docker build -t simple-node-2 .
+  - docker tag simple-node-2 sleizi/simple-node-2:latest
+
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push sleizi/travis_ci
+  - docker push sleizi/simple-node-2
